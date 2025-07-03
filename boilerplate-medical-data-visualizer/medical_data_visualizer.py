@@ -41,7 +41,7 @@ def draw_cat_plot():
     # 7
     fig = sns.catplot(
         data=df_cat, x="variable", y="total", col="cardio", hue="value", kind="bar"
-    )
+    ).fig  # Get the matplotlib fig
 
     # 8
     # plt.show()
@@ -61,20 +61,20 @@ def draw_heat_map():
         & (df["weight"] >= df["weight"].quantile(0.025))
         & (df["weight"] <= df["weight"].quantile(0.975))
     ]
-    print(df_heat)
 
     # 12
     corr = df_heat.corr()
 
-    print(corr)
-
     # 13
-    mask = None
+    mask = np.triu(np.ones_like(corr, dtype=bool))
 
     # 14
-    fig, ax = None
+    fig, ax = plt.subplots()
 
     # 15
+    sns.heatmap(corr, mask=mask, cmap="coolwarm", ax=ax)
+    plt.title("Heat map")
+    # plt.show()
 
     # 16
     fig.savefig("heatmap.png")
