@@ -72,7 +72,9 @@ def draw_heat_map():
     fig, ax = plt.subplots()
 
     # 15
-    sns.heatmap(corr, mask=mask, cmap="coolwarm", ax=ax)
+    sns.heatmap(
+        corr, mask=mask, cmap="coolwarm", ax=ax, fmt=".1f", annot=True
+    )  # Need to annotate the cells on the heatmap
     plt.title("Heat map")
     # plt.show()
 
