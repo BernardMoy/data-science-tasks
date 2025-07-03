@@ -18,7 +18,7 @@ def draw_plot():
     slope, intercept, r, p, se = linregress(df["Year"], df["CSIRO Adjusted Sea Level"])
 
     # Line space is from 1880 to 2050
-    x_range = np.array([1880, 2050])
+    x_range = np.arange(1880, 2051)  # One point for each year from 1880 to 2050
     y_range = np.array([slope * i + intercept for i in x_range])
 
     plt.plot(x_range, y_range, color="blue")
@@ -32,7 +32,7 @@ def draw_plot():
     )
 
     # Line space is from 2000 to 2050
-    x_range2 = np.array([2000, 2050])
+    x_range2 = np.arange(2000, 2051)
     y_range2 = np.array([slope2 * i + intercept2 for i in x_range2])
 
     plt.plot(x_range2, y_range2, color="red")
