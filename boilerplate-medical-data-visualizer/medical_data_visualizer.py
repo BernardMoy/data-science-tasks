@@ -7,7 +7,9 @@ import numpy as np
 df = pd.read_csv("medical_examination.csv")
 
 # 2
-df["overweight"] = (df["weight"] / (df["height"] * df["height"]) > 25).astype(int)
+df["overweight"] = ((df["weight"] / (df["height"] * df["height"] / 10000)) > 25).astype(
+    int
+)
 
 # 3
 df["cholesterol"] = (df["cholesterol"] > 1).astype(int)
@@ -52,10 +54,19 @@ def draw_cat_plot():
 # 10
 def draw_heat_map():
     # 11
-    df_heat = None
+    df_heat = df[
+        (df["ap_lo"] <= df["ap_hi"])
+        & (df["height"] >= df["height"].quantile(0.025))
+        & (df["height"] <= df["height"].quantile(0.975))
+        & (df["weight"] >= df["weight"].quantile(0.025))
+        & (df["weight"] <= df["weight"].quantile(0.975))
+    ]
+    print(df_heat)
 
     # 12
-    corr = None
+    corr = df_heat.corr()
+
+    print(corr)
 
     # 13
     mask = None
