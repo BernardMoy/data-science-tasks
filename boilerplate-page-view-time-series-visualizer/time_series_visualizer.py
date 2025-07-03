@@ -10,7 +10,6 @@ register_matplotlib_converters()
 df = pd.read_csv(
     "fcc-forum-pageviews.csv", index_col="date", parse_dates=True
 )  # Parse as dates
-print(df.columns)
 
 # Clean data
 df = df[
@@ -83,8 +82,21 @@ def draw_box_plot():
     df_box.reset_index(inplace=True)
     df_box["year"] = [d.year for d in df_box.date]
     df_box["month"] = [d.strftime("%b") for d in df_box.date]
+    df_box["month_number"] = [d.month for d in df_box.date]
+
+    # Sort the dataframe by the month number
+    df_box_sorted = df_box.sort_values(by="month_number")
 
     # Draw box plots (using Seaborn)
+    fig, ax = plt.subplots(1, 2, figsize=(14, 6))
+    sns.boxplot(x=df_box_sorted["year"], y=df_box_sorted["value"], ax=ax[0])
+    sns.boxplot(x=df_box_sorted["month"], y=df_box_sorted["value"], ax=ax[1])
+    ax[0].set_xlabel("Year")
+    ax[0].set_ylabel("Page Views")
+    ax[0].set_title("Year-wise Box Plot (Trend)")
+    ax[1].set_xlabel("Month")
+    ax[1].set_ylabel("Page Views")
+    ax[1].set_title("Month-wise Box Plot (Seasonality)")
 
     # Save image and return fig (don't change this part)
     fig.savefig("box_plot.png")
